@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './App.scss';
 import Header from './components/Header';
@@ -16,6 +17,7 @@ function App() {
 
           <Switch>
             <Redirect exact from='/' to='/photos' />
+
             <Route path='/photos' component={Photo} />
             <Route component={NotFound} />
           </Switch>
