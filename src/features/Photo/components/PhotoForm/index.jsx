@@ -6,6 +6,7 @@ import { FastField, Form, Formik } from 'formik';
 import InputField from 'custom-fields/InputField';
 import SelectField from 'custom-fields/SelectField';
 import RandomPhotoField from 'custom-fields/RandomPhotoField';
+import * as Yup from 'yup';
 
 PhotoForm.propTypes = {
     onSubmit: PropTypes.func,
@@ -20,17 +21,24 @@ function PhotoForm(props) {
     const initialValues = {
         title: '',
         categoryId: null,
-        imageUrl: null
+        imageUrl: ''
     };
+
+    const validationSchema = Yup.object().shape({
+        title: Yup.string().required('title is is requred'),
+        categoryId: Yup.number().nullable().required('category field is is requred'),
+        imageUrl: Yup.string().url().required('url is is requred')
+    });
 
     return (
         <Formik
             initialValues={initialValues}
+            validationSchema={validationSchema}
             onSubmit={values => console.log('submit: ', values)}
         >
             {formikProps => {
                 const { values, errors, touched } = formikProps;
-                // console.log({ values, errors, touched });
+
                 return (
                     <Form>
                         <FastField
