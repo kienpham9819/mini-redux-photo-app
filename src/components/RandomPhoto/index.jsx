@@ -24,7 +24,7 @@ const getRandomImageUrl = () => {
 }
 
 function RandomPhoto(props) {
-    const { name, imageUrl, onImageUrlChange, onRandomButtonBlur } = props;
+    const { name, imageUrl, onImageUrlChange, onRandomButtonBlur, cname } = props;
 
     const handRandomPhotoClick = async () => {
         const url = getRandomImageUrl();
@@ -32,7 +32,7 @@ function RandomPhoto(props) {
     }
 
     return (
-        <div className='random-photo'>
+        <div className={`random-photo ${cname}`}>
             <div className='random-photo__button'>
                 <Button
                     outline
