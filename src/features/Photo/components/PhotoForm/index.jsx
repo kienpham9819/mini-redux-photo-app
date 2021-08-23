@@ -1,28 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Label, FormGroup, Input } from 'reactstrap';
+import { Button, FormGroup } from 'reactstrap';
 import { PHOTO_CATEGORY_OPTIONS } from 'constants/global';
 import { FastField, Form, Formik } from 'formik';
 import InputField from 'custom-fields/InputField';
 import SelectField from 'custom-fields/SelectField';
 import RandomPhotoField from 'custom-fields/RandomPhotoField';
 import * as Yup from 'yup';
+import { useHistory, useParams } from 'react-router-dom';
 
 PhotoForm.propTypes = {
     onSubmit: PropTypes.func,
+    initialValues: PropTypes.object,
+    isAddmode: PropTypes.bool
 };
 
 PhotoForm.defaultProps = {
     onSubmit: null,
-}
+    initialValues: {},
+    isAddmode: true
+};
 
 
 function PhotoForm(props) {
-    const initialValues = {
-        title: '',
-        categoryId: null,
-        imageUrl: ''
-    };
+    const { initialValues, onSubmit } = props;
+    let { isAddmode } = props;
+    const history = useHistory();
+    const { photoId } = useParams();
+    if (initialValues
+        && Object.keys(initialValues).length === 0
+        && initialValues.constructor === Object
+        && photoId) {
+        isAddmode = true;
+        history.push('/photos/add');
+    }
 
     const validationSchema = Yup.object().shape({
         title: Yup.string().required('title is is requred'),
@@ -34,11 +45,9 @@ function PhotoForm(props) {
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={values => console.log('submit: ', values)}
+            onSubmit={onSubmit}
         >
             {formikProps => {
-                const { values, errors, touched } = formikProps;
-
                 return (
                     <Form>
                         <FastField
@@ -68,7 +77,13 @@ function PhotoForm(props) {
 
 
                         <FormGroup>
-                            <Button type='submit' color="primary">Add to album</Button>
+                            <Button type='submit' color="primary">
+                                {
+                                    isAddmode ?
+                                        'Add photo'
+                                        : 'Save Edited'
+                                }
+                            </Button>
                         </FormGroup>
                     </Form>
                 );
