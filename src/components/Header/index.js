@@ -11,24 +11,23 @@ function Header() {
             <Container>
                 <Row className="justify-content-between">
                     <Col xs="auto">
-                        <a
-                            className="header__link header__title"
-                            href="https://youtube.com/easyfrontend"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <NavLink
+                            className="header__link"
+                            to="/photos"
+                            activeClassName="header__link--active"
                         >
                             Easy Frontend
-                        </a>
+                        </NavLink>
                     </Col>
 
                     <Col xs="auto">
                         <NavLink
                             exact
                             className="header__link"
-                            to="/photos"
+                            to="/login"
                             activeClassName="header__link--active"
                         >
-                            Redux Project
+                            SignIn
                         </NavLink>
                     </Col>
                 </Row>
